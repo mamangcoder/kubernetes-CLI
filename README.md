@@ -60,3 +60,12 @@ $ ​​gcloud container clusters update hello-world-q2a7 --zone=us-central1-b -
 ## Task 6. Containerize your code and deploy it onto the cluster
 1. In the hello-app directory, update the main.go file to use Version: 2.0.0 on line 49.
 2. Use the hello-app/Dockerfile to create a Docker image with the v2 tag.
+   - auth artifact registry
+     $ gcloud auth configure-docker \ us-east1-docker.pkg.dev
+   - build docker image
+     $ docker build -t us-east1-docker.pkg.dev/qwiklabs-gcp-03-6ee41a494d4c/sandbox-repo/hello-app:v2 .
+   - push to artifacr repository
+     $ docker push us-east1-docker.pkg.dev/qwiklabs-gcp-03-6ee41a494d4c/sandbox-repo/hello-app:v2
+   - set image deployment kubernetes
+    $ kubectl set image deployment/helloweb -n nsName hello-app=us-east1-docker.pkg.dev/qwiklabs-gcp-03-6ee41a494d4c/sandbox-repo/hello-app:v2
+expose service load balancer
